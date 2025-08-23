@@ -1,0 +1,1901 @@
+{
+    "info": {
+        "_postman_id": "nawartu-api-collection",
+        "name": "Nawartu API Collection",
+        "description": "Complete API collection for Nawartu - A property rental platform",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "Authentication",
+            "item": [
+                {
+                    "name": "Register User",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"name\": \"John Doe\",\n  \"email\": \"john@example.com\",\n  \"password\": \"password123\",\n  \"phone\": \"+963991234567\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/auth/register",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "auth",
+                                "register"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Login User",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"email\": \"john@example.com\",\n  \"password\": \"password123\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/auth/login",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "auth",
+                                "login"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Current User Profile",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/auth/me",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "auth",
+                                "me"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Update User Profile",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"name\": \"John Updated\",\n  \"phone\": \"+963991234568\",\n  \"avatar\": \"http://example.com/avatar.jpg\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/auth/me",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "auth",
+                                "me"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Change Password",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"currentPassword\": \"password123\",\n  \"newPassword\": \"newpassword123\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/auth/change-password",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "auth",
+                                "change-password"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Become a Host",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/auth/become-host",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "auth",
+                                "become-host"
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Properties",
+            "item": [
+                {
+                    "name": "Get All Properties",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/properties?search=apartment&neighborhood=Old Damascus&minPrice=50&maxPrice=200&guests=2&propertyType=Apartment&amenities=Wi-Fi,Kitchen&page=1&limit=12",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "properties"
+                            ],
+                            "query": [
+                                {
+                                    "key": "search",
+                                    "value": "apartment",
+                                    "description": "Search term"
+                                },
+                                {
+                                    "key": "neighborhood",
+                                    "value": "Old Damascus",
+                                    "description": "Filter by neighborhood"
+                                },
+                                {
+                                    "key": "minPrice",
+                                    "value": "50",
+                                    "description": "Minimum price per night"
+                                },
+                                {
+                                    "key": "maxPrice",
+                                    "value": "200",
+                                    "description": "Maximum price per night"
+                                },
+                                {
+                                    "key": "guests",
+                                    "value": "2",
+                                    "description": "Number of guests"
+                                },
+                                {
+                                    "key": "propertyType",
+                                    "value": "Apartment",
+                                    "description": "Type of property"
+                                },
+                                {
+                                    "key": "amenities",
+                                    "value": "Wi-Fi,Kitchen",
+                                    "description": "Comma-separated amenities"
+                                },
+                                {
+                                    "key": "page",
+                                    "value": "1",
+                                    "description": "Page number"
+                                },
+                                {
+                                    "key": "limit",
+                                    "value": "12",
+                                    "description": "Items per page"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Single Property",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/properties/{{propertyId}}",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "properties",
+                                "{{propertyId}}"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Create Property (Host Only)",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"title\": \"Beautiful Apartment in Old Damascus\",\n  \"description\": \"A cozy 2-bedroom apartment with traditional Syrian architecture in the heart of Old Damascus.\",\n  \"location\": {\n    \"address\": \"Straight Street, Old Damascus\",\n    \"neighborhood\": \"Old Damascus\",\n    \"city\": \"Damascus\",\n    \"coordinates\": {\n      \"lat\": 33.5138,\n      \"lng\": 36.2765\n    }\n  },\n  \"price\": 75,\n  \"images\": [\n    \"http://example.com/image1.jpg\",\n    \"http://example.com/image2.jpg\"\n  ],\n  \"amenities\": [\"Wi-Fi\", \"Kitchen\", \"Air Conditioning\", \"TV\"],\n  \"capacity\": {\n    \"guests\": 4,\n    \"bedrooms\": 2,\n    \"bathrooms\": 1\n  },\n  \"propertyType\": \"Apartment\",\n  \"instantBookable\": false\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/properties",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "properties"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Update Property (Host Only)",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"title\": \"Updated Beautiful Apartment\",\n  \"price\": 85,\n  \"amenities\": [\"Wi-Fi\", \"Kitchen\", \"Air Conditioning\", \"TV\", \"Balcony\"]\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/properties/{{propertyId}}",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "properties",
+                                "{{propertyId}}"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Delete Property (Host Only)",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/properties/{{propertyId}}",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "properties",
+                                "{{propertyId}}"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Add Property Review",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"rating\": 5,\n  \"comment\": \"Amazing property with excellent location and amenities!\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/properties/{{propertyId}}/reviews",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "properties",
+                                "{{propertyId}}",
+                                "reviews"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Toggle Favorite Property",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/properties/{{propertyId}}/favorite",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "properties",
+                                "{{propertyId}}",
+                                "favorite"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Neighborhoods List",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/properties/neighborhoods/list",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "properties",
+                                "neighborhoods",
+                                "list"
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Bookings",
+            "item": [
+                {
+                    "name": "Get My Bookings (Guest)",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/bookings/my-bookings",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "bookings",
+                                "my-bookings"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get My Properties Bookings (Host)",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/bookings/my-properties-bookings",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "bookings",
+                                "my-properties-bookings"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Single Booking",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/bookings/{{bookingId}}",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "bookings",
+                                "{{bookingId}}"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Create Booking",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"propertyId\": \"{{propertyId}}\",\n  \"checkIn\": \"2024-03-15\",\n  \"checkOut\": \"2024-03-18\",\n  \"guests\": 2,\n  \"specialRequests\": \"Late check-in requested\",\n  \"paymentMethod\": \"paypal\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/bookings",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "bookings"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Update Booking Status",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"status\": \"confirmed\",\n  \"cancellationReason\": \"\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/bookings/{{bookingId}}/status",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "bookings",
+                                "{{bookingId}}",
+                                "status"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Add Booking Review",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"rating\": 5,\n  \"comment\": \"Excellent stay! Host was very accommodating.\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/bookings/{{bookingId}}/review",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "bookings",
+                                "{{bookingId}}",
+                                "review"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Check Property Availability",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/bookings/property/{{propertyId}}/availability?checkIn=2024-03-15&checkOut=2024-03-18",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "bookings",
+                                "property",
+                                "{{propertyId}}",
+                                "availability"
+                            ],
+                            "query": [
+                                {
+                                    "key": "checkIn",
+                                    "value": "2024-03-15"
+                                },
+                                {
+                                    "key": "checkOut",
+                                    "value": "2024-03-18"
+                                }
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Payments",
+            "item": [
+                {
+                    "name": "Create PayPal Order",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"bookingId\": \"{{bookingId}}\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/payments/paypal/create-order",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "payments",
+                                "paypal",
+                                "create-order"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Capture PayPal Payment",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"orderID\": \"PAYPAL_ORDER_ID\",\n  \"bookingId\": \"{{bookingId}}\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/payments/paypal/capture",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "payments",
+                                "paypal",
+                                "capture"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Process Cash Payment",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"bookingId\": \"{{bookingId}}\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/payments/cash",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "payments",
+                                "cash"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Confirm Cash Payment (Host Only)",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"bookingId\": \"{{bookingId}}\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/payments/cash/confirm",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "payments",
+                                "cash",
+                                "confirm"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Payment Status",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/payments/status/{{bookingId}}",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "payments",
+                                "status",
+                                "{{bookingId}}"
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Reviews",
+            "item": [
+                {
+                    "name": "Get Property Reviews",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/reviews/property/{{propertyId}}?page=1&limit=10&sort=newest",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "reviews",
+                                "property",
+                                "{{propertyId}}"
+                            ],
+                            "query": [
+                                {
+                                    "key": "page",
+                                    "value": "1"
+                                },
+                                {
+                                    "key": "limit",
+                                    "value": "10"
+                                },
+                                {
+                                    "key": "sort",
+                                    "value": "newest",
+                                    "description": "newest, oldest, highest, lowest"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get My Reviews (Guest)",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/reviews/my-reviews",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "reviews",
+                                "my-reviews"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Host Reviews",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/reviews/host-reviews",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "reviews",
+                                "host-reviews"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Create Review",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"bookingId\": \"{{bookingId}}\",\n  \"rating\": {\n    \"overall\": 5,\n    \"cleanliness\": 5,\n    \"communication\": 4,\n    \"checkIn\": 5,\n    \"accuracy\": 5,\n    \"location\": 5,\n    \"value\": 4\n  },\n  \"comment\": \"Fantastic stay! The property exceeded expectations.\",\n  \"privateComment\": \"Minor issue with the Wi-Fi but overall great.\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/reviews",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "reviews"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Update Review",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"rating\": {\n    \"overall\": 4,\n    \"cleanliness\": 4,\n    \"communication\": 4,\n    \"checkIn\": 5,\n    \"accuracy\": 4,\n    \"location\": 5,\n    \"value\": 4\n  },\n  \"comment\": \"Updated review: Good stay with minor improvements needed.\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/reviews/{{reviewId}}",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "reviews",
+                                "{{reviewId}}"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Delete Review",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/reviews/{{reviewId}}",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "reviews",
+                                "{{reviewId}}"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Host Response to Review",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"comment\": \"Thank you for the feedback! We're glad you enjoyed your stay.\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/reviews/{{reviewId}}/response",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "reviews",
+                                "{{reviewId}}",
+                                "response"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Mark Review as Helpful",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"helpful\": true\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/reviews/{{reviewId}}/helpful",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "reviews",
+                                "{{reviewId}}",
+                                "helpful"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Review Statistics",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/reviews/property/{{propertyId}}/stats",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "reviews",
+                                "property",
+                                "{{propertyId}}",
+                                "stats"
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Users",
+            "item": [
+                {
+                    "name": "Get User Profile",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/users/{{userId}}",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "users",
+                                "{{userId}}"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get User Properties",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/users/{{userId}}/properties",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "users",
+                                "{{userId}}",
+                                "properties"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get My Favorites",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/users/me/favorites",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "users",
+                                "me",
+                                "favorites"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get User Statistics",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/users/me/stats",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "users",
+                                "me",
+                                "stats"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get All Users (Admin Only)",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/users?page=1&limit=20&role=host",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "users"
+                            ],
+                            "query": [
+                                {
+                                    "key": "page",
+                                    "value": "1"
+                                },
+                                {
+                                    "key": "limit",
+                                    "value": "20"
+                                },
+                                {
+                                    "key": "role",
+                                    "value": "host",
+                                    "description": "Filter by role: user, host, admin"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Update User Role (Admin Only)",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"role\": \"host\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/users/{{userId}}/role",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "users",
+                                "{{userId}}",
+                                "role"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Delete User (Admin Only)",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/users/{{userId}}",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "users",
+                                "{{userId}}"
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Host Tools",
+            "item": [
+                {
+                    "name": "Get Property Calendar",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/host/calendar/{{propertyId}}?startDate=2024-03-01&endDate=2024-03-31",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "host",
+                                "calendar",
+                                "{{propertyId}}"
+                            ],
+                            "query": [
+                                {
+                                    "key": "startDate",
+                                    "value": "2024-03-01"
+                                },
+                                {
+                                    "key": "endDate",
+                                    "value": "2024-03-31"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Update Calendar Dates",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"dates\": [\"2024-03-15\", \"2024-03-16\", \"2024-03-17\"],\n  \"updates\": {\n    \"isBlocked\": false,\n    \"customPrice\": 90\n  }\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/host/calendar/{{propertyId}}",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "host",
+                                "calendar",
+                                "{{propertyId}}"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Block Calendar Dates",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"startDate\": \"2024-03-20\",\n  \"endDate\": \"2024-03-25\",\n  \"reason\": \"maintenance\",\n  \"notes\": \"Property maintenance scheduled\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/host/calendar/{{propertyId}}/block",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "host",
+                                "calendar",
+                                "{{propertyId}}",
+                                "block"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Analytics Summary",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/host/analytics/summary?period=6months",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "host",
+                                "analytics",
+                                "summary"
+                            ],
+                            "query": [
+                                {
+                                    "key": "period",
+                                    "value": "6months",
+                                    "description": "1month, 3months, 6months, 1year"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Property Analytics",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/host/analytics/property/{{propertyId}}?year=2024&month=3",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "host",
+                                "analytics",
+                                "property",
+                                "{{propertyId}}"
+                            ],
+                            "query": [
+                                {
+                                    "key": "year",
+                                    "value": "2024"
+                                },
+                                {
+                                    "key": "month",
+                                    "value": "3",
+                                    "description": "Optional - get specific month"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Pricing Suggestions",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/host/pricing/suggestions/{{propertyId}}?startDate=2024-03-15&endDate=2024-03-20",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "host",
+                                "pricing",
+                                "suggestions",
+                                "{{propertyId}}"
+                            ],
+                            "query": [
+                                {
+                                    "key": "startDate",
+                                    "value": "2024-03-15"
+                                },
+                                {
+                                    "key": "endDate",
+                                    "value": "2024-03-20"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Update Property Pricing",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"basePrice\": 80,\n  \"customPricing\": [\n    { \"date\": \"2024-03-15\", \"price\": 100 },\n    { \"date\": \"2024-03-16\", \"price\": 100 }\n  ]\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/host/pricing/{{propertyId}}",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "host",
+                                "pricing",
+                                "{{propertyId}}"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Properties for Bulk Operations",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/host/properties/bulk",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "host",
+                                "properties",
+                                "bulk"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Bulk Update Properties",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"propertyIds\": [\"propertyId1\", \"propertyId2\"],\n  \"updates\": {\n    \"isAvailable\": true,\n    \"instantBookable\": false\n  }\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/host/properties/bulk",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "host",
+                                "properties",
+                                "bulk"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Host Verification Status",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/host/verification/status",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "host",
+                                "verification",
+                                "status"
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Maps",
+            "item": [
+                {
+                    "name": "Geocode Address",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"address\": \"Straight Street, Old Damascus, Syria\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/maps/geocode",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "maps",
+                                "geocode"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Reverse Geocode",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"lat\": 33.5138,\n  \"lng\": 36.2765\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/maps/reverse-geocode",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "maps",
+                                "reverse-geocode"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Nearby Places",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/maps/nearby?lat=33.5138&lng=36.2765&radius=5000&type=restaurant",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "maps",
+                                "nearby"
+                            ],
+                            "query": [
+                                {
+                                    "key": "lat",
+                                    "value": "33.5138"
+                                },
+                                {
+                                    "key": "lng",
+                                    "value": "36.2765"
+                                },
+                                {
+                                    "key": "radius",
+                                    "value": "5000",
+                                    "description": "Radius in meters"
+                                },
+                                {
+                                    "key": "type",
+                                    "value": "restaurant",
+                                    "description": "Place type"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Place Details",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/maps/place/{{placeId}}",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "maps",
+                                "place",
+                                "{{placeId}}"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Calculate Distance",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"lat1\": 33.5138,\n  \"lng1\": 36.2765,\n  \"lat2\": 33.5000,\n  \"lng2\": 36.3000\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/maps/distance",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "maps",
+                                "distance"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Directions",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"origin\": \"Old Damascus, Syria\",\n  \"destination\": \"Damascus Airport, Syria\",\n  \"mode\": \"driving\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/maps/directions",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "maps",
+                                "directions"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Property Attractions",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/maps/attractions/{{propertyId}}?radius=5000",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "maps",
+                                "attractions",
+                                "{{propertyId}}"
+                            ],
+                            "query": [
+                                {
+                                    "key": "radius",
+                                    "value": "5000"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Search Places",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/maps/search?query=restaurants&lat=33.5138&lng=36.2765&radius=5000",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "maps",
+                                "search"
+                            ],
+                            "query": [
+                                {
+                                    "key": "query",
+                                    "value": "restaurants"
+                                },
+                                {
+                                    "key": "lat",
+                                    "value": "33.5138"
+                                },
+                                {
+                                    "key": "lng",
+                                    "value": "36.2765"
+                                },
+                                {
+                                    "key": "radius",
+                                    "value": "5000"
+                                }
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Upload",
+            "item": [
+                {
+                    "name": "Upload Single Image",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "body": {
+                            "mode": "formdata",
+                            "formdata": [
+                                {
+                                    "key": "image",
+                                    "type": "file",
+                                    "src": []
+                                }
+                            ]
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/upload",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "upload"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Upload Multiple Images",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "body": {
+                            "mode": "formdata",
+                            "formdata": [
+                                {
+                                    "key": "images",
+                                    "type": "file",
+                                    "src": []
+                                },
+                                {
+                                    "key": "images",
+                                    "type": "file",
+                                    "src": []
+                                }
+                            ]
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/upload/multiple",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "upload",
+                                "multiple"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Delete Image",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/upload/{{filename}}",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "upload",
+                                "{{filename}}"
+                            ]
+                        }
+                    }
+                }
+            ]
+        }
+    ],
+    "variable": [
+        {
+            "key": "baseUrl",
+            "value": "http://localhost:5001",
+            "type": "string"
+        },
+        {
+            "key": "token",
+            "value": "",
+            "type": "string"
+        },
+        {
+            "key": "propertyId",
+            "value": "",
+            "type": "string"
+        },
+        {
+            "key": "bookingId",
+            "value": "",
+            "type": "string"
+        },
+        {
+            "key": "reviewId",
+            "value": "",
+            "type": "string"
+        },
+        {
+            "key": "userId",
+            "value": "",
+            "type": "string"
+        },
+        {
+            "key": "placeId",
+            "value": "",
+            "type": "string"
+        },
+        {
+            "key": "filename",
+            "value": "",
+            "type": "string"
+        }
+    ]
+}

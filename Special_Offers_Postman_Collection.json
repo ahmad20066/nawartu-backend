@@ -1,0 +1,474 @@
+{
+    "info": {
+        "name": "Nawartu Special Offers API",
+        "description": "API collection for managing special offers and discounts for properties",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "variable": [
+        {
+            "key": "base_url",
+            "value": "http://localhost:5001/api",
+            "type": "string"
+        },
+        {
+            "key": "offer_id",
+            "value": "",
+            "type": "string"
+        },
+        {
+            "key": "property_id",
+            "value": "",
+            "type": "string"
+        }
+    ],
+    "item": [
+        {
+            "name": "Get All Special Offers",
+            "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                    "raw": "{{base_url}}/special-offers",
+                    "host": [
+                        "{{base_url}}"
+                    ],
+                    "path": [
+                        "special-offers"
+                    ]
+                },
+                "description": "Get all active special offers with optional filtering"
+            }
+        },
+        {
+            "name": "Get Active Special Offers",
+            "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                    "raw": "{{base_url}}/special-offers?active=true",
+                    "host": [
+                        "{{base_url}}"
+                    ],
+                    "path": [
+                        "special-offers"
+                    ],
+                    "query": [
+                        {
+                            "key": "active",
+                            "value": "true"
+                        }
+                    ]
+                },
+                "description": "Get only active special offers"
+            }
+        },
+        {
+            "name": "Get Special Offers by Category",
+            "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                    "raw": "{{base_url}}/special-offers?category=64f8a1b2c3d4e5f6a7b8c9d0",
+                    "host": [
+                        "{{base_url}}"
+                    ],
+                    "path": [
+                        "special-offers"
+                    ],
+                    "query": [
+                        {
+                            "key": "category",
+                            "value": "64f8a1b2c3d4e5f6a7b8c9d0"
+                        }
+                    ]
+                },
+                "description": "Get special offers filtered by category ID"
+            }
+        },
+        {
+            "name": "Get Special Offer by ID",
+            "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                    "raw": "{{base_url}}/special-offers/{{offer_id}}",
+                    "host": [
+                        "{{base_url}}"
+                    ],
+                    "path": [
+                        "special-offers",
+                        "{{offer_id}}"
+                    ]
+                },
+                "description": "Get a specific special offer by its ID"
+            }
+        },
+        {
+            "name": "Create Special Offer",
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "multipart/form-data"
+                    }
+                ],
+                "body": {
+                    "mode": "formdata",
+                    "formdata": [
+                        {
+                            "key": "title",
+                            "value": "Summer Sale - 25% Off",
+                            "type": "text"
+                        },
+                        {
+                            "key": "description",
+                            "value": "Get 25% off on all summer bookings",
+                            "type": "text"
+                        },
+                        {
+                            "key": "discountPercentage",
+                            "value": "25",
+                            "type": "text"
+                        },
+                        {
+                            "key": "discountType",
+                            "value": "percentage",
+                            "type": "text"
+                        },
+                        {
+                            "key": "startDate",
+                            "value": "2024-06-01",
+                            "type": "text"
+                        },
+                        {
+                            "key": "endDate",
+                            "value": "2024-08-31",
+                            "type": "text"
+                        },
+                        {
+                            "key": "minimumStay",
+                            "value": "2",
+                            "type": "text"
+                        },
+                        {
+                            "key": "maximumDiscount",
+                            "value": "500",
+                            "type": "text"
+                        },
+                        {
+                            "key": "terms",
+                            "value": "Valid for stays of 2 nights or more. Maximum discount $500.",
+                            "type": "text"
+                        },
+                        {
+                            "key": "properties",
+                            "value": "[\"64f8a1b2c3d4e5f6a7b8c9d0\", \"64f8a1b2c3d4e5f6a7b8c9d1\"]",
+                            "type": "text"
+                        },
+                        {
+                            "key": "categories",
+                            "value": "[\"64f8a1b2c3d4e5f6a7b8c9d2\"]",
+                            "type": "text"
+                        },
+                        {
+                            "key": "image",
+                            "type": "file",
+                            "src": []
+                        }
+                    ]
+                },
+                "url": {
+                    "raw": "{{base_url}}/special-offers",
+                    "host": [
+                        "{{base_url}}"
+                    ],
+                    "path": [
+                        "special-offers"
+                    ]
+                },
+                "description": "Create a new special offer"
+            }
+        },
+        {
+            "name": "Update Special Offer",
+            "request": {
+                "method": "PUT",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "multipart/form-data"
+                    }
+                ],
+                "body": {
+                    "mode": "formdata",
+                    "formdata": [
+                        {
+                            "key": "title",
+                            "value": "Summer Sale - 30% Off",
+                            "type": "text"
+                        },
+                        {
+                            "key": "discountPercentage",
+                            "value": "30",
+                            "type": "text"
+                        },
+                        {
+                            "key": "maximumDiscount",
+                            "value": "750",
+                            "type": "text"
+                        }
+                    ]
+                },
+                "url": {
+                    "raw": "{{base_url}}/special-offers/{{offer_id}}",
+                    "host": [
+                        "{{base_url}}"
+                    ],
+                    "path": [
+                        "special-offers",
+                        "{{offer_id}}"
+                    ]
+                },
+                "description": "Update an existing special offer"
+            }
+        },
+        {
+            "name": "Delete Special Offer",
+            "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                    "raw": "{{base_url}}/special-offers/{{offer_id}}",
+                    "host": [
+                        "{{base_url}}"
+                    ],
+                    "path": [
+                        "special-offers",
+                        "{{offer_id}}"
+                    ]
+                },
+                "description": "Delete a special offer"
+            }
+        },
+        {
+            "name": "Add Properties to Offer",
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n  \"propertyIds\": [\"64f8a1b2c3d4e5f6a7b8c9d3\", \"64f8a1b2c3d4e5f6a7b8c9d4\"]\n}"
+                },
+                "url": {
+                    "raw": "{{base_url}}/special-offers/{{offer_id}}/properties",
+                    "host": [
+                        "{{base_url}}"
+                    ],
+                    "path": [
+                        "special-offers",
+                        "{{offer_id}}",
+                        "properties"
+                    ]
+                },
+                "description": "Add properties to an existing special offer"
+            }
+        },
+        {
+            "name": "Remove Properties from Offer",
+            "request": {
+                "method": "DELETE",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n  \"propertyIds\": [\"64f8a1b2c3d4e5f6a7b8c9d3\"]\n}"
+                },
+                "url": {
+                    "raw": "{{base_url}}/special-offers/{{offer_id}}/properties",
+                    "host": [
+                        "{{base_url}}"
+                    ],
+                    "path": [
+                        "special-offers",
+                        "{{offer_id}}",
+                        "properties"
+                    ]
+                },
+                "description": "Remove properties from a special offer"
+            }
+        },
+        {
+            "name": "Get Properties with Special Offers",
+            "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                    "raw": "{{base_url}}/special-offers/properties/with-offers",
+                    "host": [
+                        "{{base_url}}"
+                    ],
+                    "path": [
+                        "special-offers",
+                        "properties",
+                        "with-offers"
+                    ]
+                },
+                "description": "Get all properties that have active special offers"
+            }
+        },
+        {
+            "name": "Get Properties with Offers by Category",
+            "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                    "raw": "{{base_url}}/special-offers/properties/with-offers?category=64f8a1b2c3d4e5f6a7b8c9d2",
+                    "host": [
+                        "{{base_url}}"
+                    ],
+                    "path": [
+                        "special-offers",
+                        "properties",
+                        "with-offers"
+                    ],
+                    "query": [
+                        {
+                            "key": "category",
+                            "value": "64f8a1b2c3d4e5f6a7b8c9d2"
+                        }
+                    ]
+                },
+                "description": "Get properties with special offers filtered by category"
+            }
+        },
+        {
+            "name": "Get Properties with Offers by Location",
+            "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                    "raw": "{{base_url}}/special-offers/properties/with-offers?location=Damascus",
+                    "host": [
+                        "{{base_url}}"
+                    ],
+                    "path": [
+                        "special-offers",
+                        "properties",
+                        "with-offers"
+                    ],
+                    "query": [
+                        {
+                            "key": "location",
+                            "value": "Damascus"
+                        }
+                    ]
+                },
+                "description": "Get properties with special offers filtered by location"
+            }
+        },
+        {
+            "name": "Get Properties with Offers by Price Range",
+            "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                    "raw": "{{base_url}}/special-offers/properties/with-offers?minPrice=50&maxPrice=200",
+                    "host": [
+                        "{{base_url}}"
+                    ],
+                    "path": [
+                        "special-offers",
+                        "properties",
+                        "with-offers"
+                    ],
+                    "query": [
+                        {
+                            "key": "minPrice",
+                            "value": "50"
+                        },
+                        {
+                            "key": "maxPrice",
+                            "value": "200"
+                        }
+                    ]
+                },
+                "description": "Get properties with special offers filtered by price range"
+            }
+        },
+        {
+            "name": "Calculate Discount",
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n  \"propertyId\": \"{{property_id}}\",\n  \"checkIn\": \"2024-07-15\",\n  \"checkOut\": \"2024-07-18\",\n  \"guests\": 2\n}"
+                },
+                "url": {
+                    "raw": "{{base_url}}/special-offers/calculate-discount",
+                    "host": [
+                        "{{base_url}}"
+                    ],
+                    "path": [
+                        "special-offers",
+                        "calculate-discount"
+                    ]
+                },
+                "description": "Calculate discounted price for a property with special offers"
+            }
+        },
+        {
+            "name": "Toggle Offer Status",
+            "request": {
+                "method": "PATCH",
+                "header": [],
+                "url": {
+                    "raw": "{{base_url}}/special-offers/{{offer_id}}/toggle-status",
+                    "host": [
+                        "{{base_url}}"
+                    ],
+                    "path": [
+                        "special-offers",
+                        "{{offer_id}}",
+                        "toggle-status"
+                    ]
+                },
+                "description": "Toggle the active status of a special offer"
+            }
+        },
+        {
+            "name": "Increment Usage Count",
+            "request": {
+                "method": "PATCH",
+                "header": [],
+                "url": {
+                    "raw": "{{base_url}}/special-offers/{{offer_id}}/increment-usage",
+                    "host": [
+                        "{{base_url}}"
+                    ],
+                    "path": [
+                        "special-offers",
+                        "{{offer_id}}",
+                        "increment-usage"
+                    ]
+                },
+                "description": "Increment the usage count of a special offer"
+            }
+        }
+    ]
+}

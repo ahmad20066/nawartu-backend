@@ -1,0 +1,191 @@
+{
+    "info": {
+        "name": "Nawartu Simple Banner API",
+        "description": "Simple API for managing promotional banners with image, title, and optional CTA link",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "variable": [
+        {
+            "key": "base_url",
+            "value": "http://localhost:5001/api",
+            "type": "string"
+        },
+        {
+            "key": "banner_id",
+            "value": "",
+            "type": "string"
+        }
+    ],
+    "item": [
+        {
+            "name": "Get All Banners",
+            "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                    "raw": "{{base_url}}/banners",
+                    "host": [
+                        "{{base_url}}"
+                    ],
+                    "path": [
+                        "banners"
+                    ]
+                },
+                "description": "Get all banners"
+            }
+        },
+        {
+            "name": "Get Active Banners",
+            "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                    "raw": "{{base_url}}/banners/active",
+                    "host": [
+                        "{{base_url}}"
+                    ],
+                    "path": [
+                        "banners",
+                        "active"
+                    ]
+                },
+                "description": "Get only active banners"
+            }
+        },
+        {
+            "name": "Get Banner by ID",
+            "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                    "raw": "{{base_url}}/banners/{{banner_id}}",
+                    "host": [
+                        "{{base_url}}"
+                    ],
+                    "path": [
+                        "banners",
+                        "{{banner_id}}"
+                    ]
+                },
+                "description": "Get a specific banner by its ID"
+            }
+        },
+        {
+            "name": "Create New Banner",
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "multipart/form-data"
+                    }
+                ],
+                "body": {
+                    "mode": "formdata",
+                    "formdata": [
+                        {
+                            "key": "title",
+                            "value": "Summer Sale Banner",
+                            "type": "text"
+                        },
+                        {
+                            "key": "ctaLink",
+                            "value": "/special-offers",
+                            "type": "text"
+                        },
+                        {
+                            "key": "image",
+                            "type": "file",
+                            "src": []
+                        }
+                    ]
+                },
+                "url": {
+                    "raw": "{{base_url}}/banners",
+                    "host": [
+                        "{{base_url}}"
+                    ],
+                    "path": [
+                        "banners"
+                    ]
+                },
+                "description": "Create a new banner with image, title, and optional CTA link"
+            }
+        },
+        {
+            "name": "Update Banner",
+            "request": {
+                "method": "PUT",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "multipart/form-data"
+                    }
+                ],
+                "body": {
+                    "mode": "formdata",
+                    "formdata": [
+                        {
+                            "key": "title",
+                            "value": "Updated Summer Sale Banner",
+                            "type": "text"
+                        },
+                        {
+                            "key": "ctaLink",
+                            "value": "/updated-offers",
+                            "type": "text"
+                        }
+                    ]
+                },
+                "url": {
+                    "raw": "{{base_url}}/banners/{{banner_id}}",
+                    "host": [
+                        "{{base_url}}"
+                    ],
+                    "path": [
+                        "banners",
+                        "{{banner_id}}"
+                    ]
+                },
+                "description": "Update an existing banner"
+            }
+        },
+        {
+            "name": "Delete Banner",
+            "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                    "raw": "{{base_url}}/banners/{{banner_id}}",
+                    "host": [
+                        "{{base_url}}"
+                    ],
+                    "path": [
+                        "banners",
+                        "{{banner_id}}"
+                    ]
+                },
+                "description": "Delete a banner"
+            }
+        },
+        {
+            "name": "Toggle Banner Status",
+            "request": {
+                "method": "PATCH",
+                "header": [],
+                "url": {
+                    "raw": "{{base_url}}/banners/{{banner_id}}/toggle-status",
+                    "host": [
+                        "{{base_url}}"
+                    ],
+                    "path": [
+                        "banners",
+                        "{{banner_id}}",
+                        "toggle-status"
+                    ]
+                },
+                "description": "Toggle banner active/inactive status"
+            }
+        }
+    ]
+}
