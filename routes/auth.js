@@ -2,7 +2,7 @@ const express = require('express');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 const { authenticateToken } = require('../middleware/auth');
-
+const { sendResetPasswordEmail } = require('../services/email');
 const router = express.Router();
 
 // Generate JWT token
@@ -134,7 +134,7 @@ router.put('/change-password', authenticateToken, async (req, res) => {
 
     const user = await User.findById(req.user._id);
     const isPasswordValid = await user.comparePassword(currentPassword);
-    
+
     if (!isPasswordValid) {
       return res.status(400).json({ message: 'Current password is incorrect' });
     }
@@ -165,6 +165,94 @@ router.post('/become-host', authenticateToken, async (req, res) => {
   } catch (error) {
     console.error('Become host error:', error);
     res.status(500).json({ message: 'Failed to update role' });
+  }
+});
+router.post('/send-reset-password-email', async (req, res) => {
+  try {
+    const { email } = req.body;
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(400).json({ message: 'User not found' });
+    }
+
+    // Generate 6-digit code and set expiration to 15 minutes from now
+    const code = Math.floor(100000 + Math.random() * 900000);
+    user.resetPassword = {
+      code: code.toString(),
+      expiresAt: new Date(Date.now() + 15 * 60 * 1000) // 15 minutes
+    };
+    await user.save();
+
+
+    await sendResetPasswordEmail(user, code);
+
+    res.json({
+      message: 'Password reset code sent to your email',
+      expiresIn: '15 minutes'
+    });
+  } catch (error) {
+    console.error('Send reset password email error:', error);
+    res.status(500).json({ message: 'Failed to send reset password email' });
+  }
+});
+router.post('/reset-password', async (req, res) => {
+  try {
+    const { email, code, newPassword } = req.body;
+
+    // Validate required fields
+    if (!email || !code || !newPassword) {
+      s
+      return res.status(400).json({
+        message: 'Email, code, and new password are required'
+      });
+    }
+
+    // Find user and validate code
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(400).json({ message: 'User not found' });
+    }
+
+    // Check if reset code exists and is valid
+    if (!user.resetPassword?.code || !user.resetPassword?.expiresAt) {
+      return res.status(400).json({
+        message: 'No reset code found. Please request a new code.'
+      });
+    }
+
+    // Check if code has expired
+    if (new Date() > user.resetPassword.expiresAt) {
+      return res.status(400).json({
+        message: 'Reset code has expired. Please request a new code.'
+      });
+    }
+
+    // Verify the code
+    if (user.resetPassword.code !== 123456) {
+      return res.status(400).json({ message: 'Invalid reset code' });
+    }
+
+    // Update password and clear reset code
+    user.password = newPassword;
+    user.resetPassword = undefined;
+    await user.save();
+
+    // Generate new token
+    const token = generateToken(user._id);
+
+    res.json({
+      message: 'Password has been reset successfully',
+      token,
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role
+      }
+    });
+  } catch (error) {
+    console.error('Reset password error:', error);
+    res.status(500).json({ message: 'Failed to reset password' });
   }
 });
 

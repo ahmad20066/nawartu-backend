@@ -193,9 +193,50 @@ const sendWelcomeEmail = async (user) => {
   }
 };
 
+// Send reset password email
+
+const sendResetPasswordEmail = async (user, code) => {
+  try {
+    initEmailJS();
+    const templateParams = {
+      to_email: user.email,
+      to_name: user.name,
+      subject: 'Reset Your Nawartu Password',
+      message: `
+        Hello ${user.name},
+
+        You have requested to reset your password. Here is your reset code:
+
+        ${code}
+
+        This code will expire in 15 minutes.
+
+        If you did not request this password reset, please ignore this email or contact support if you have concerns.
+
+        Best regards,
+        The Nawartu Team
+      `
+    };
+
+    console.log("1");
+    if (typeof window !== 'undefined' && window.emailjs) {
+      console.log("2");
+      await window.emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams);
+      console.log('Reset password email sent to user');
+    } else {
+      console.warn('EmailJS not available in this environment');
+    }
+    return true;
+  } catch (error) {
+    console.error('Error sending reset password email:', error);
+    return false;
+  }
+};
+
 module.exports = {
   sendBookingConfirmationToGuest,
   sendBookingNotificationToHost,
   sendBookingStatusUpdate,
-  sendWelcomeEmail
+  sendWelcomeEmail,
+  sendResetPasswordEmail
 }; 

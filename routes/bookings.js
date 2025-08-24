@@ -2,7 +2,7 @@ const express = require('express');
 const Booking = require('../models/Booking');
 const Property = require('../models/Property');
 const { authenticateToken } = require('../middleware/auth');
-
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const router = express.Router();
 
 // Get user's bookings (as guest)
@@ -63,14 +63,20 @@ router.get('/:id', authenticateToken, async (req, res) => {
 // Create new booking
 router.post('/', authenticateToken, async (req, res) => {
   try {
-    const { propertyId, checkIn, checkOut, guests, specialRequests, paymentMethod } = req.body;
+    const { propertyId, checkIn, checkOut, guests, specialRequests, paymentintentid, paymentmethod } = req.body;
 
     // Get property details
     const property = await Property.findById(propertyId);
     if (!property) {
       return res.status(404).json({ message: 'Property not found' });
     }
-
+    if (paymentmethod === 'stripe') {
+      const paymentIntent = await stripe.paymentIntents.retrieve(paymentintentid);
+      console.log(paymentIntent);
+      if (!paymentIntent) {
+        return res.status(400).json({ message: 'Invalid payment' });
+      }
+    }
     // Check if property is available
     if (!property.isAvailable) {
       return res.status(400).json({ message: 'Property is not available' });
@@ -88,7 +94,7 @@ router.post('/', authenticateToken, async (req, res) => {
 
     // Set payment status based on payment method
     let paymentStatus = 'pending';
-    if (paymentMethod === 'cash') {
+    if (paymentmethod === 'cash') {
       paymentStatus = 'pending'; // Cash payments are pending until confirmed by host
     }
 
@@ -101,7 +107,7 @@ router.post('/', authenticateToken, async (req, res) => {
       guests,
       totalPrice,
       specialRequests,
-      paymentMethod: paymentMethod || 'credit_card',
+      paymentMethod: paymentmethod || 'credit_card',
       paymentStatus
     });
 
@@ -264,6 +270,18 @@ router.get('/property/:propertyId/availability', async (req, res) => {
     console.error('Check availability error:', error);
     res.status(500).json({ message: 'Failed to check availability' });
   }
+});
+// Create PaymentIntent (called before frontend payment)
+router.post("/create-payment-intent", async (req, res) => {
+  const { amount, currency } = req.body;
+  const paymentIntent = await stripe.paymentIntents.create({
+    amount,
+    currency,
+  });
+
+  res.send({
+    clientSecret: paymentIntent.client_secret, // send to frontend
+  });
 });
 
 module.exports = router; 

@@ -128,15 +128,19 @@ const userSchema = new mongoose.Schema({
     responseRate: { type: Number, default: 100, min: 0, max: 100 },
     acceptanceRate: { type: Number, default: 100, min: 0, max: 100 },
     lastCalculated: { type: Date, default: Date.now }
+  },
+  resetPassword: {
+    code: String,
+    expiresAt: Date
   }
 }, {
   timestamps: true
 });
 
 // Hash password before saving
-userSchema.pre('save', async function(next) {
+userSchema.pre('save', async function (next) {
   if (!this.isModified('password')) return next();
-  
+
   try {
     const salt = await bcrypt.genSalt(10);
     this.password = await bcrypt.hash(this.password, salt);
@@ -147,16 +151,16 @@ userSchema.pre('save', async function(next) {
 });
 
 // Method to compare password
-userSchema.methods.comparePassword = async function(candidatePassword) {
+userSchema.methods.comparePassword = async function (candidatePassword) {
   return bcrypt.compare(candidatePassword, this.password);
 };
 
 // Virtual for host verification status
-userSchema.virtual('verificationStatus').get(function() {
+userSchema.virtual('verificationStatus').get(function () {
   const emailVerified = this.verification.email.verified;
   const phoneVerified = this.verification.phone.verified;
   const identityVerified = this.verification.identity.verified;
-  
+
   if (emailVerified && phoneVerified && identityVerified) {
     return 'verified';
   } else if (emailVerified && phoneVerified) {
@@ -169,24 +173,24 @@ userSchema.virtual('verificationStatus').get(function() {
 });
 
 // Method to update host statistics
-userSchema.methods.updateHostStats = async function() {
+userSchema.methods.updateHostStats = async function () {
   const Property = mongoose.model('Property');
   const Booking = mongoose.model('Booking');
-  
+
   if (this.role !== 'host') return;
-  
+
   // Get all properties for this host
   const properties = await Property.find({ host: this._id });
-  
+
   // Get all bookings for this host
   const bookings = await Booking.find({ host: this._id });
   const confirmedBookings = bookings.filter(b => b.status === 'confirmed' || b.status === 'completed');
-  
+
   // Calculate statistics
   const totalRevenue = confirmedBookings.reduce((sum, booking) => sum + booking.totalPrice, 0);
   const totalRating = properties.reduce((sum, prop) => sum + prop.rating.average, 0);
   const averageRating = properties.length > 0 ? totalRating / properties.length : 0;
-  
+
   // Update stats
   this.hostStats = {
     totalProperties: properties.length,
@@ -197,23 +201,23 @@ userSchema.methods.updateHostStats = async function() {
     acceptanceRate: bookings.length > 0 ? (confirmedBookings.length / bookings.length) * 100 : 100,
     lastCalculated: new Date()
   };
-  
+
   await this.save();
 };
 
 // Static method to get hosts with statistics
-userSchema.statics.getHostLeaderboard = async function(limit = 10) {
-  return this.find({ 
+userSchema.statics.getHostLeaderboard = async function (limit = 10) {
+  return this.find({
     role: 'host',
     'hostStats.totalBookings': { $gt: 0 }
   })
-  .sort({ 
-    'hostProfile.superhost': -1,
-    'hostStats.averageRating': -1,
-    'hostStats.totalBookings': -1 
-  })
-  .limit(limit)
-  .select('name avatar hostProfile hostStats verification');
+    .sort({
+      'hostProfile.superhost': -1,
+      'hostStats.averageRating': -1,
+      'hostStats.totalBookings': -1
+    })
+    .limit(limit)
+    .select('name avatar hostProfile hostStats verification');
 };
 
 module.exports = mongoose.model('User', userSchema); 
