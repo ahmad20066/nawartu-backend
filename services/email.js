@@ -233,10 +233,48 @@ const sendResetPasswordEmail = async (user, code) => {
   }
 };
 
+// Send phone verification code
+const sendPhoneVerificationCode = async (user, code) => {
+  try {
+    initEmailJS();
+    const templateParams = {
+      to_email: user.email, // We'll send to email since we don't have SMS integration yet
+      to_name: user.name,
+      subject: 'Your Phone Verification Code',
+      message: `
+        Hello ${user.name},
+
+        Your phone verification code is:
+
+        ${code}
+
+        This code will expire in 5 minutes.
+
+        If you did not request this code, please ignore this message or contact support.
+
+        Best regards,
+        The Nawartu Team
+      `
+    };
+
+    if (typeof window !== 'undefined' && window.emailjs) {
+      await window.emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams);
+      console.log('Phone verification code sent to user');
+    } else {
+      console.warn('EmailJS not available in this environment');
+    }
+    return true;
+  } catch (error) {
+    console.error('Error sending phone verification code:', error);
+    return false;
+  }
+};
+
 module.exports = {
   sendBookingConfirmationToGuest,
   sendBookingNotificationToHost,
   sendBookingStatusUpdate,
   sendWelcomeEmail,
-  sendResetPasswordEmail
+  sendResetPasswordEmail,
+  sendPhoneVerificationCode
 }; 

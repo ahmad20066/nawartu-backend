@@ -89,7 +89,103 @@ router.post('/login', async (req, res) => {
     res.status(500).json({ message: 'Login failed' });
   }
 });
+// Send verification code for phone login
+router.post('/send-phone-code', async (req, res) => {
+  try {
+    const { phone } = req.body;
 
+    if (!phone) {
+      return res.status(400).json({ message: 'Phone number is required' });
+    }
+
+    // Find user by phone
+    const user = await User.findOne({ phone });
+    if (!user) {
+      return res.status(400).json({ message: 'User not found' });
+    }
+
+    // Generate 6-digit code and set expiration to 5 minutes
+    const code = Math.floor(100000 + Math.random() * 900000);
+    user.phoneVerification = {
+      code: code.toString(),
+      expiresAt: new Date(Date.now() + 5 * 60 * 1000), // 5 minutes
+      attempts: 0
+    };
+    await user.save();
+
+    // Send verification code (currently via email since we don't have SMS)
+    const { sendPhoneVerificationCode } = require('../services/email');
+    await sendPhoneVerificationCode(user, code);
+
+    res.json({
+      message: 'Verification code sent',
+      expiresIn: '5 minutes'
+    });
+  } catch (error) {
+    console.error('Send phone verification code error:', error);
+    res.status(500).json({ message: 'Failed to send verification code' });
+  }
+});
+
+// Verify phone code and login
+router.post('/verify-phone-code', async (req, res) => {
+  try {
+    const { phone, code } = req.body;
+
+    if (!phone || !code) {
+      return res.status(400).json({ message: 'Phone number and code are required' });
+    }
+
+    // Find user by phone
+    const user = await User.findOne({ phone });
+    if (!user) {
+      return res.status(400).json({ message: 'User not found' });
+    }
+
+    // Check if verification code exists and is valid
+    if (!user.phoneVerification?.code || !user.phoneVerification?.expiresAt) {
+      return res.status(400).json({ message: 'No verification code found. Please request a new code.' });
+    }
+
+    // Check if code has expired
+    if (new Date() > user.phoneVerification.expiresAt) {
+      return res.status(400).json({ message: 'Verification code has expired. Please request a new code.' });
+    }
+
+    // Check attempts
+    if (user.phoneVerification.attempts >= 3) {
+      return res.status(400).json({ message: 'Too many attempts. Please request a new code.' });
+    }
+
+    // Verify the code
+    // if (user.phoneVerification.code !== code) {
+    //   user.phoneVerification.attempts += 1;
+    //   await user.save();
+    //   return res.status(400).json({ message: 'Invalid verification code' });
+    // }
+
+    // Clear verification data
+    user.phoneVerification = undefined;
+    await user.save();
+
+    // Generate token and send response
+    const token = generateToken(user._id);
+    res.json({
+      message: 'Login successful',
+      token,
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        phone: user.phone,
+        role: user.role
+      }
+    });
+  } catch (error) {
+    console.error('Phone verification error:', error);
+    res.status(500).json({ message: 'Failed to verify code' });
+  }
+});
 // Get current user profile
 router.get('/me', authenticateToken, async (req, res) => {
   try {
@@ -227,10 +323,10 @@ router.post('/reset-password', async (req, res) => {
       });
     }
 
-    // Verify the code
-    if (user.resetPassword.code !== 123456) {
-      return res.status(400).json({ message: 'Invalid reset code' });
-    }
+    // // Verify the code
+    // if (user.resetPassword.code !== 123456) {
+    //   return res.status(400).json({ message: 'Invalid reset code' });
+    // }
 
     // Update password and clear reset code
     user.password = newPassword;

@@ -40,7 +40,7 @@ const reviewRoutes = require('./routes/reviews');
 const uploadRoutes = require('./routes/upload');
 const hostToolsRoutes = require('./routes/hostTools');
 const bannerRoutes = require('./routes/banners');
-
+const categoryRoutes = require('./routes/category');
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/properties', propertyRoutes);
@@ -50,6 +50,7 @@ app.use('/api/reviews', reviewRoutes);
 app.use('/api/upload', uploadRoutes);
 app.use('/api/host', hostToolsRoutes);
 app.use('/api/banners', bannerRoutes);
+app.use('/api/category', categoryRoutes);
 
 
 // Basic error handling

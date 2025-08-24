@@ -132,6 +132,11 @@ const userSchema = new mongoose.Schema({
   resetPassword: {
     code: String,
     expiresAt: Date
+  },
+  phoneVerification: {
+    code: String,
+    expiresAt: Date,
+    attempts: { type: Number, default: 0 }
   }
 }, {
   timestamps: true

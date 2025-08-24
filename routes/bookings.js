@@ -76,6 +76,9 @@ router.post('/', authenticateToken, async (req, res) => {
       if (!paymentIntent) {
         return res.status(400).json({ message: 'Invalid payment' });
       }
+      if (paymentIntent.status !== 'succeeded') {
+        return res.status(400).json({ message: 'Payment failed' });
+      }
     }
     // Check if property is available
     if (!property.isAvailable) {
@@ -276,7 +279,7 @@ router.post("/create-payment-intent", async (req, res) => {
   const { amount, currency } = req.body;
   const paymentIntent = await stripe.paymentIntents.create({
     amount,
-    currency,
+    currency: currency || 'usd',
   });
 
   res.send({
